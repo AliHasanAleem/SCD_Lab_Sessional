@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  api-gateway:
+    image: api-gateway-image
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+    depends_on:
+      - customer-service
+      - inventory-service
+      - menu-service
+      - order-service
+      - payment-service
+      - mongo-db
+
+  customer-service:
+    image: customer-service-image
+    networks:
+      - app-network
+
+  inventory-service:
+    image: inventory-service-image
+    networks:
+      - app-network
+
+  menu-service:
+    image: menu-service-image
+    networks:
+      - app-network
+
+  order-service:
+    image: order-service-image
+    networks:
+      - app-network
+
+  payment-service:
+    image: payment-service-image
+    networks:
+      - app-network
+  mongo-db:
+    image: mongo:latest
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  app-network:
